@@ -19,6 +19,52 @@
   <button id="findBtn">🔍</button>
   <input type="text" id="searchBox" placeholder="Search..." />
 </div>
+<script>
+  const findBtn = document.getElementById("findBtn");
+  const searchBox = document.getElementById("searchBox");
+
+  findBtn.addEventListener("click", () => {
+    searchBox.style.display = (searchBox.style.display === "none" || searchBox.style.display === "") ? "inline-block" : "none";
+    if (searchBox.style.display === "inline-block") searchBox.focus();
+  });
+
+  searchBox.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      const query = searchBox.value.trim().toLowerCase();
+      if (!query) return;
+
+      // Remove previous highlights
+      document.querySelectorAll(".highlight").forEach(el => {
+        el.outerHTML = el.innerText;
+      });
+
+      // Define a recursive function to highlight text within elements
+      function highlightText(node) {
+        if (node.nodeType === 3) {  // Text node
+          const text = node.nodeValue;
+          const regex = new RegExp(`(${query})`, "gi");
+          if (regex.test(text)) {
+            const span = document.createElement("span");
+            span.innerHTML = text.replace(regex, "<span class='highlight'>$1</span>");
+            node.parentNode.replaceChild(span, node);
+          }
+        } else if (node.nodeType === 1 && node.nodeName !== "SCRIPT" && node.nodeName !== "STYLE") {  // Element node
+          for (let i = 0; i < node.childNodes.length; i++) {
+            highlightText(node.childNodes[i]);  // Recursively apply to child nodes
+          }
+        }
+      }
+
+      highlightText(document.body);  // Start from the body element
+
+      // Check if any matches were found
+      const highlights = document.querySelectorAll(".highlight");
+      if (highlights.length === 0) {
+        alert("No matches found.");
+      }
+    }
+  });
+</script>
 
 <!-- Main Header -->
 <header>
@@ -28,13 +74,13 @@
   <nav class="navbar">
     <ul class="main-menu">
       <li class="menu-item"><a href="main.html" title="Home" class="home-icon">🏠</a></li>
-      <li class="menu-item"><a href="#">About</a></li>
+      <li class="menu-item"><a href="https://dseu.ac.in/about-dseu/index.html">About</a></li>
       <li class="menu-item">
         <span>Study at DSEU<span class="arrow">&#9662;</span></span>
         <ul class="submenu">
           <li><a href="#">Doctoral Programs</a></li>
           <li><a href="#">Postgraduate Programs</a></li>
-          <li><a href="#">Undergraduate Programs</a></li>
+          <li><a href="ug.html">Undergraduate Programs</a></li>
           <li><a href="#">B.Tech Programs</a></li>
           <li><a href="#">Diploma Programs</a></li>
           <li><a href="#">Certificate Programs</a></li>
@@ -44,68 +90,68 @@
               <li class="menu-item">
                 <span>East Zone<span class="arrow">&#9662;</span></span>
                 <ul class="submenu">
-                  <li><a href="#">Ambedkar DSEU Shakarpur Campus - I</a></li>
-                  <li><a href="#">Bhai Parmanand DSEU Shakarpur Campus - II</a></li>
-                  <li><a href="#">Dr. H.J. Bhabha DSEU Mayur Vihar Campus</a></li>
-                  <li><a href="#">DSEU Vivek Vihar Campus</a></li>
+                  <li><a href="https://dseu.ac.in/shakarpur-i/index.html">Ambedkar DSEU Shakarpur Campus - I</a></li>
+                  <li><a href="https://dseu.ac.in/bhai-parmanand-dseu-shakarpur-campus-ii/index.html">Bhai Parmanand DSEU Shakarpur Campus - II</a></li>
+                  <li><a href="https://dseu.ac.in/dseu-mayur-vihar-campus/index.html">Dr. H.J. Bhabha DSEU Mayur Vihar Campus</a></li>
+                  <li><a href="https://dseu.ac.in/vivek-vihar/index.html">DSEU Vivek Vihar Campus</a></li>
                 </ul>
               </li>
               <li class="menu-item">
                 <span>West Zone<span class="arrow">&#9662;</span></span>
                 <ul class="submenu">
-                  <li><a href="#">DSEU Dwarka Campus</a></li>
-                  <li><a href="#">DSEU Pusa Campus - I</a></li>
-                  <li><a href="#">DSEU Pusa Campus - II</a></li>
-                  <li><a href="#">DSEU Rajokri Campus</a></li>
-                  <li><a href="#">DSEU Ranhola Campus</a></li>
-                  <li><a href="#">DSEU Jaffarpur Campus</a></li>
+                  <li><a href="https://dseu.ac.in/dwarka/index.html">DSEU Dwarka Campus</a></li>
+                  <li><a href="https://dseu.ac.in/pusa/index.html">DSEU Pusa Campus - I</a></li>
+                  <li><a href="https://dseu.ac.in/dseu-wcsc-pusa-campus/index.html">DSEU Pusa Campus - II</a></li>
+                  <li><a href="https://dseu.ac.in/rajokri/index.html">DSEU Rajokri Campus</a></li>
+                  <li><a href="https://dseu.ac.in/ranhola/index.html">DSEU Ranhola Campus</a></li>
+                  <li><a href="https://dseu.ac.in/jaffarpur/index.html">DSEU Jaffarpur Campus</a></li>
                 </ul>
               </li>
               <li class="menu-item">
                 <span>North Zone<span class="arrow">&#9662;</span></span>
                 <ul class="submenu">
-                  <li><a href="#">Arybhatt DSEU Ashok Vihar Campus</a></li>
-                  <li><a href="#">DSEU Wazirpur - I Campus</a></li>
-                  <li><a href="#">Guru Nanak Dev DSEU Rohini Campus</a></li>
-                  <li><a href="#">Kasturba DSEU Pitampura Campus</a></li>
-                  <li><a href="#">Sir C.V. Raman DSEU Dheerpur Campus</a></li>
+                  <li><a href="https://dseu.ac.in/ashok-vihar/index.html">Arybhatt DSEU Ashok Vihar Campus</a></li>
+                  <li><a href="https://dseu.ac.in/wazirpur/index.html">DSEU Wazirpur - I Campus</a></li>
+                  <li><a href="https://dseu.ac.in/rohini/index.html">Guru Nanak Dev DSEU Rohini Campus</a></li>
+                  <li><a href="https://dseu.ac.in/pitampura/index.html">Kasturba DSEU Pitampura Campus</a></li>
+                  <li><a href="https://dseu.ac.in/dseu-dheerpur-campus/index.html">Sir C.V. Raman DSEU Dheerpur Campus</a></li>
                 </ul>
               </li>
               <li class="menu-item">
                 <span>South Zone<span class="arrow">&#9662;</span></span>
                 <ul class="submenu">
-                  <li><a href="#">G.B. Pant DSEU Okhla - I Campus</a></li>
-                  <li><a href="#">CHAMPS DSEU Okhla - II Campus</a></li>
-                  <li><a href="#">DSEU Okhla - II Campus</a></li>
-                  <li><a href="#">GB Pant DSEU Okhla - III Campus</a></li>
-                  <li><a href="#">DSEU Siri Fort Campus</a></li>
-                  <li><a href="#">Meerabai DSEU Mharani Bagh Campus</a></li>
+                  <li><a href="https://dseu.ac.in/okhla-i/index.html">G.B. Pant DSEU Okhla - I Campus</a></li>
+                  <li><a href="https://dseu.ac.in/champs-dseu-okhla-ii-campus/index.html">CHAMPS DSEU Okhla - II Campus</a></li>
+                  <li><a href="https://dseu.ac.in/okhla-ii/index.html">DSEU Okhla - II Campus</a></li>
+                  <li><a href="https://dseu.ac.in/dseu-okhla-iii-campus/index.html">GB Pant DSEU Okhla - III Campus</a></li>
+                  <li><a href="https://dseu.ac.in/siri-fort/index.html">DSEU Siri Fort Campus</a></li>
+                  <li><a href="https://dseu.ac.in/maharani-bagh/index.html">Meerabai DSEU Mharani Bagh Campus</a></li>
                 </ul>
               </li>
             </ul>
           </li>
-          <li><a href="#">Campus Life</a></li>
-          <li><a href="#">Library</a></li>
+          <li><a href="https://dseu.ac.in/campus-life/index.html">Campus Life</a></li>
+          <li><a href="https://dseu.ac.in/student-library/index.html">Library</a></li>
         </ul>
       </li>
       <li class="menu-item"><a href="https://dseu.ac.in/admissions/index.html">Admissions</a></li>
       <li class="menu-item">
         <span>Placements & Partnerships<span class="arrow">&#9662;</span></span>
         <ul class="submenu">
-          <li><a href="#">Centre for External Relations and Partnerships</a></li>
+          <li><a href="https://dseu.ac.in/centre-for-external-relations-and-partnerships/index.html">Centre for External Relations and Partnerships</a></li>
           <li class="menu-item">
             <span>Partners<span class="arrow">&#9662;</span></span>
             <ul class="submenu">
-              <li><a href="#">Industry</a></li>
-              <li><a href="#">Sector Skill Council</a></li>
-              <li><a href="#">Community Development</a></li>
-              <li><a href="#">Knowledge Partners</a></li>
+              <li><a href="https://dseu.ac.in/industry/index.html">Industry</a></li>
+              <li><a href="https://dseu.ac.in/sector-skill-councils/index.html">Sector Skill Council</a></li>
+              <li><a href="https://dseu.ac.in/community-development/index.html">Community Development</a></li>
+              <li><a href="https://dseu.ac.in/knowledge-partners/index.html">Knowledge Partners</a></li>
             </ul>
           </li>        
-          <li><a href="#">Consultancy</a></li>
-          <li><a href="#">Pre-placement</a></li>
-          <li><a href="#">Alumni</a></li>
-          <li><a href="#">Placements</a></li>
+          <li><a href="https://dseu.ac.in/consultancy/index.html">Consultancy</a></li>
+          <li><a href="https://dseu.ac.in/pre-placement/index.html">Pre-placement</a></li>
+          <li><a href="https://dseu.ac.in/alumni-relations/index.html">Alumni</a></li>
+          <li><a href="https://dseu.ac.in/placements/index.html">Placements</a></li>
         </ul>
       </li>
       <li class="menu-item">
@@ -122,9 +168,9 @@
       <li class="menu-item">
         <span>Minutes of Statutory Bodies<span class="arrow">&#9662;</span></span>
         <ul class="submenu">
-          <li><a href="#">Minutes of Academic Council</a></li>
-          <li><a href="#">Minutes of BOM Meeting</a></li>
-          <li><a href="#">Minutes of Finance Committee</a></li>
+          <li><a href="https://dseu.ac.in/minutes-of-academic-council.html">Minutes of Academic Council</a></li>
+          <li><a href="https://dseu.ac.in/minutes-of-bom.html">Minutes of BOM Meeting</a></li>
+          <li><a href="https://dseu.ac.in/minutes-of-finance-committee.html">Minutes of Finance Committee</a></li>
         </ul>
       </li>
     </ul>
@@ -133,32 +179,69 @@
 
 <!-- Sliding Notification Bar -->
 <div class="scrolling-bar">
-  <p>List of discontinued programs of UG & PG from Admission cycle 2024-25 — 
-    <a href="#">Click here for more details.</a> || 
-  </p>
+  <div class="scrolling-wrapper">
+  <a href="#">The lateral entry date has been extended for Diploma and B.Tech programs till 10th September 2024. Visit the admission portal for more details. <span> || </span></a> 
+  <a href="pdf/9.pdf">List of discontinued programs of UG & PG from Admission cycle 2024-25.  <span> || </span></a>
+  </div>
 </div>
   
 <!-- Main Slider -->
 <div class="main-slider">
     <div class="slider-track">
-      <img src="Sliding/6.jpg" class="slide-clone" />
+      <img src="Sliding/6.png" class="slide-clone" />
 
-      <img src="Sliding/1.jpg" alt="Slide 1">
-      <img src="Sliding/2.jpeg" alt="Slide 2">
-      <img src="Sliding\3.jpg" alt="Slide 3">
-      <img src="Sliding\4.jpg" alt="Slide 4">
-      <img src="Sliding\5.jpg" alt="Slide 5">
-      <img src="Sliding\6.jpg" alt="Slide 6">
+      <img src="Sliding/1.png" alt="Slide 1">
+      <img src="Sliding/2.png" alt="Slide 2">
+      <img src="Sliding\3.png" alt="Slide 3">
+      <img src="Sliding\4.png" alt="Slide 4">
+      <img src="Sliding\5.png" alt="Slide 5">
+      <img src="Sliding\6.png" alt="Slide 6">
 
 
-      <img src="Sliding\1.jpg" alt="Slide 1">
+      <img src="Sliding\1.png" alt="Slide 1">
     </div>
-</div>  
+</div>
+<script>
+  const track = document.querySelector('.slider-track');
+  const slides = document.querySelectorAll('.slider-track img');
+  let index = 1; // Start from the first real slide
+  const slideWidth = slides[0].clientWidth;
+
+  function moveToSlide(i) {
+    track.style.transition = 'transform 0.6s ease-in-out';
+    track.style.transform = `translateX(-${i * slideWidth}px)`;
+  }
+
+  function resetTransition(i) {
+    track.style.transition = 'none';
+    track.style.transform = `translateX(-${i * slideWidth}px)`;
+  }
+
+  moveToSlide(index);
+
+  setInterval(() => {
+    index++;
+    moveToSlide(index);
+
+    // When reaching the clone of the first slide
+    setTimeout(() => {
+      if (index === slides.length - 1) {
+        index = 1;
+        resetTransition(index);
+      }
+    }, 1000); // Match transition time
+  }, 5000); // Show each image for 3s
+</script>
 
 <!-- New Scrolling Bar Below with Blue Box and Text -->
 <div class="highlight-scrolling-bar">
     <div class="blue-box">Highlights</div>
-      <a href="#" class="scrolling-text">DSEU launches new skill programs – Click here for details</a>
+    <div class="scrolling-wrapper">
+      <a href="#">Click here for e-Library Software (for DSEU Faculty Members)</a><span> | </span>
+      <a href="#">UGC Guidelines on Anti-Ragging</a><span> | </span>
+      <a href="#">Delhi Skill and Entrepreneurship University has ben established through an act of the Legislative Assembly of the NCT of Delhi, namely the 'Delhi Skill and Entrepreneurship University Act', 2019(Delhi Act 04 of 2020)</a><span> | </span>
+      <a href="#">The University operates from 21 campuses across Delhi</a>
+    </div>
 </div>
 
 <!-- Message -->
@@ -532,6 +615,61 @@
       </div>
     </div>
 </section>
+<script>
+  const slides2 = document.querySelector('.glimpses-slider .slides'); // Corrected selector for the left slider
+  const images2 = document.querySelectorAll('.glimpses-slider .slides img'); // Left slider images
+  const thumbnails2 = document.querySelectorAll('.thumbnails img'); // Thumbnails on the right side
+  
+  let currentIndex1 = 0; // Current slide index for the left slider
+  let slideInterval2; // Interval variable for auto sliding
+  
+  // Function to change the slide based on the index
+  function goToSlide2(index) {
+    if (index < 0) index = images2.length - 1;
+    if (index >= images2.length) index = 0;
+  
+    // Update the left slider's transform to shift to the correct image
+    slides2.style.transform = `translateX(-${index * 100}%)`;
+    currentIndex1 = index;
+  }
+  
+  // Function to start the automatic sliding of images
+  function startAutoPlay2() {
+    slideInterval2 = setInterval(() => {
+      currentIndex1 = (currentIndex1 + 1) % images2.length; // Move to the next slide
+      goToSlide2(currentIndex1);
+    }, 3000); // 3 seconds for each slide
+  }
+  
+  // Function to stop auto play when hovering on the slider
+  function stopAutoPlay2() {
+    clearInterval(slideInterval2); // Clears the auto sliding interval
+  }
+  
+  // Start the slideshow automatically when page loads
+  startAutoPlay2();
+  
+  // Stop autoplay on hover, and resume on mouseleave for the left slider
+  document.querySelector('.glimpses-slider').addEventListener('mouseenter', stopAutoPlay2);
+  document.querySelector('.glimpses-slider').addEventListener('mouseleave', startAutoPlay2);
+  
+  // Function to move to the specific image when thumbnail is clicked on the right side
+  thumbnails2.forEach((thumbnail, index) => {
+    thumbnail.addEventListener('click', () => {
+      goToSlide2(index); // Move to the clicked thumbnail's corresponding slide
+      stopAutoPlay2(); // Stop auto sliding when a thumbnail is clicked
+      startAutoPlay2(); // Restart the auto sliding after a click
+    });
+  });
+  
+  // Mouse wheel scrolling for thumbnails (right side)
+  document.querySelector('.glimpses-slider .thumbnails').addEventListener('wheel', (e) => {
+    const scrollAmount = e.deltaY > 0 ? 1 : -1; // Check scroll direction
+    const thumbnailHeight = thumbnails2[0].offsetHeight;
+    document.querySelector('.glimpses-slider .thumbnails').scrollTop += scrollAmount * thumbnailHeight; // Scroll vertically
+  });
+  
+</script>
   
 <!-- OUR PARTNERS Section -->
 <section class="our-partners">
@@ -633,6 +771,38 @@
     <button class="next">&#10095;</button>
   </div>
 </section>
+<script>
+  const partnerSlides = document.querySelector('.partner-slider .slides');
+  const partnerBlocks = document.querySelectorAll('.partner-slider .block');
+  const partnerPrev = document.querySelector('.partner-slider .prev');
+  const partnerNext = document.querySelector('.partner-slider .next');
+  
+  let partnerIndex = 0;
+  
+  // Function to update the slider position
+  function updatePartnerSlider() {
+    const blockWidth = partnerBlocks[0].offsetWidth;
+    partnerSlides.style.transform = `translateX(-${partnerIndex * blockWidth}px)`;
+  }
+  
+  // Previous Button
+  partnerPrev.addEventListener('click', () => {
+    partnerIndex = (partnerIndex - 1 + partnerBlocks.length) % partnerBlocks.length;
+    updatePartnerSlider();
+  });
+  
+  // Next Button
+  partnerNext.addEventListener('click', () => {
+    partnerIndex = (partnerIndex + 1) % partnerBlocks.length;
+    updatePartnerSlider();
+  });
+  
+  // Auto Slide every 2.5 seconds
+  setInterval(() => {
+    partnerIndex = (partnerIndex + 1) % partnerBlocks.length;
+    updatePartnerSlider();
+  }, 2500);
+</script>
 
 <!-- DSEU IN NEWS Section -->
 <section class="dseu-news-section">
@@ -698,6 +868,23 @@
 
     <button class="dseu-view-all-btn" id="dseu-view-all-btn">VIEW ALL</button>
 </section>
+<script>
+  const viewAllBtn = document.getElementById('dseu-view-all-btn');
+  const newsContainer = document.querySelector('.dseu-news-container');
+
+  let expanded = false;
+
+  viewAllBtn.addEventListener('click', function () {
+    expanded = !expanded;
+    newsContainer.classList.toggle('limited-view');
+
+    if (expanded) {
+      viewAllBtn.textContent = 'SHOW LESS';
+    } else {
+      viewAllBtn.textContent = 'VIEW ALL';
+    }
+  });
+</script>
 
 <!-- 2 Block section -->
 <div class="custom-section">
@@ -733,7 +920,7 @@
       </div>
       <div class="slider-container">
         <ul class="slider">
-          <li><a href="#">Event 1</a></li>
+          <li><a href="pdf/15.pdf">Team Readables is looking for an intern 📄</a></li>
           <li><a href="#">Event 2</a></li>
           <li><a href="#">Event 3</a></li>
           <li><a href="#">Event 4</a></li>
@@ -804,6 +991,13 @@
 
   </div>
 </section>
+<script>
+  fetch('https://api.countapi.xyz/hit/mainproject.com/visits')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('visitor-count').innerText = data.value;
+    });
+</script>
 
 <!--Last blue section-->
 <div class="final-blue-section">
@@ -839,91 +1033,15 @@
       <span class="close-btn" onclick="togglePopup()">×</span>
       <h2>Latest Notifications</h2>
       <ul>
-        <li>Admission for new semester starts next week.</li>
-        <li>New courses available for the upcoming session.</li>
-        <li>Placement drive scheduled for this month.</li>
+        <li><a href="pdf/10.pdf">Revised Diploma End Semester Exam Schedule</a></li>
+        <li><a href="pdf/11.pdf">Revised UG PG End Semester Exam Schedule</a></li>
+        <li><a href="pdf/12.pdf">Notice - Examination Schedule May-2025</a></li>
+        <li><a href="pdf/13.pdf">Notification of partial modification in Examination Schedule</a></li>
+        <li><a href="pdf/14.pdf">Pre-Admissions Announcement-2025</a></li>
+        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeeSzA6tXBFTQqvtXbFz6uq2BZpLvOSoP-speDObt9dkeZf1w/viewform">Click here!! for Internship program for students to gain practical work experience under qualified mentors.</a></li>
       </ul>
     </div>
 </div>
-
-<!--Chatbot-->
-<div id="chat-box"></div>
-<input type="text" id="user-input" placeholder="Ask something...">
-<button onclick="sendChat()">Ask</button>
-
-<script>
-function sendChat() {
-    const message = document.getElementById("user-input").value;
-    const url = window.location.href;
-
-    fetch("http://localhost:5000/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message, url })
-    })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("chat-box").innerHTML += `<p><b>You:</b> ${message}</p>`;
-        document.getElementById("chat-box").innerHTML += `<p><b>Bot:</b> ${data.reply}</p>`;
-        document.getElementById("user-input").value = "";
-    })
-    .catch(err => {
-        document.getElementById("chat-box").innerHTML += `<p style="color:red;">Error connecting to chatbot.</p>`;
-    });
-}
-</script>
-
-
-
-<!-- Top bar -->
-<script>
-  const findBtn = document.getElementById("findBtn");
-  const searchBox = document.getElementById("searchBox");
-
-  findBtn.addEventListener("click", () => {
-    searchBox.style.display = (searchBox.style.display === "none" || searchBox.style.display === "") ? "inline-block" : "none";
-    if (searchBox.style.display === "inline-block") searchBox.focus();
-  });
-
-  searchBox.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      const query = searchBox.value.trim().toLowerCase();
-      if (!query) return;
-
-      // Remove previous highlights
-      document.querySelectorAll(".highlight").forEach(el => {
-        el.outerHTML = el.innerText;
-      });
-
-      // Define a recursive function to highlight text within elements
-      function highlightText(node) {
-        if (node.nodeType === 3) {  // Text node
-          const text = node.nodeValue;
-          const regex = new RegExp(`(${query})`, "gi");
-          if (regex.test(text)) {
-            const span = document.createElement("span");
-            span.innerHTML = text.replace(regex, "<span class='highlight'>$1</span>");
-            node.parentNode.replaceChild(span, node);
-          }
-        } else if (node.nodeType === 1 && node.nodeName !== "SCRIPT" && node.nodeName !== "STYLE") {  // Element node
-          for (let i = 0; i < node.childNodes.length; i++) {
-            highlightText(node.childNodes[i]);  // Recursively apply to child nodes
-          }
-        }
-      }
-
-      highlightText(document.body);  // Start from the body element
-
-      // Check if any matches were found
-      const highlights = document.querySelectorAll(".highlight");
-      if (highlights.length === 0) {
-        alert("No matches found.");
-      }
-    }
-  });
-</script>
-
-<!-- Popup -->
 <script>
   function togglePopup(forceShow = false) {
     const popup = document.getElementById("popup");
@@ -940,157 +1058,85 @@ function sendChat() {
   });
 </script>
 
-<!-- Main Photo section -->
+<!-- Chat Button -->
+<div id="chat-icon" style="position: fixed; bottom: 10px; right: 80px; background: blue; color: white; border-radius: 50%; padding: 10px; cursor: pointer; font-size: 30px;">
+  💬
+</div>
+
+<!-- Chat Container -->
+<div id="chat-popup" style="display: none; position: fixed; bottom: 70px; right: 10px; width: 350px; background: white; border-radius: 10px; border: 1px solid #ccc; padding: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+
+  <!-- Chat Header with Bot Name and Icon -->
+  <div style="display: flex; align-items: center; justify-content: center; background-color: #007bff; color: white; border-radius: 10px 10px 0 0; padding: 10px;">
+    <div style="font-size: 25px; margin-right: 10px;">🤖</div>
+    <div style="font-size: 18px; text-align: center; flex-grow: 1;">Bot</div>
+  </div>
+
+  <!-- Chat Messages -->
+  <div id="chat-messages" style="height: 300px; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 10px;">
+    <!-- Messages will be appended dynamically -->
+  </div>
+
+  <!-- Chat Input Area -->
+  <div style="display: flex; align-items: center;">
+    <input type="text" id="chat-input" placeholder="Type your message..." style="flex-grow: 1; padding: 10px; border-radius: 20px; border: 1px solid #ccc; margin-right: 10px;">
+  </div>
+
+</div>
 <script>
-    const track = document.querySelector('.slider-track');
-    const slides = document.querySelectorAll('.slider-track img');
-    let index = 1; // Start from the first real slide
-    const slideWidth = slides[0].clientWidth;
+  // Toggle chat popup visibility
+  document.getElementById("chat-icon").onclick = () => {
+    const popup = document.getElementById("chat-popup");
+    popup.style.display = popup.style.display === "none" ? "block" : "none";
+  };
 
-    function moveToSlide(i) {
-      track.style.transition = 'transform 0.6s ease-in-out';
-      track.style.transform = `translateX(-${i * slideWidth}px)`;
-    }
+  // Send message when Enter is pressed
+  document.getElementById("chat-input").addEventListener("keypress", async (e) => {
+    if (e.key === "Enter") {
+      const input = document.getElementById("chat-input");
+      const msg = input.value.trim();
+      input.value = "";
 
-    function resetTransition(i) {
-      track.style.transition = 'none';
-      track.style.transform = `translateX(-${i * slideWidth}px)`;
-    }
+      if (msg !== "") {
+        appendMessage(msg, 'human'); // Append user message
 
-    moveToSlide(index);
+        const messages = document.getElementById("chat-messages");
 
-    setInterval(() => {
-      index++;
-      moveToSlide(index);
+        try {
+          const res = await fetch("http://127.0.0.1:8000/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: msg })
+          });
 
-      // When reaching the clone of the first slide
-      setTimeout(() => {
-        if (index === slides.length - 1) {
-          index = 1;
-          resetTransition(index);
+          const data = await res.json();
+          const response = data.response || "Sorry, something went wrong.";
+          appendMessage(response, 'bot'); // Append bot response
+        } catch (err) {
+          appendMessage("Error contacting server.", 'bot');
         }
-      }, 1000); // Match transition time
-    }, 5000); // Show each image for 3s
-</script>
 
-<!-- Glimpses section -->
-<script>
-const slides2 = document.querySelector('.glimpses-slider .slides'); // Corrected selector for the left slider
-const images2 = document.querySelectorAll('.glimpses-slider .slides img'); // Left slider images
-const thumbnails2 = document.querySelectorAll('.thumbnails img'); // Thumbnails on the right side
-
-let currentIndex1 = 0; // Current slide index for the left slider
-let slideInterval2; // Interval variable for auto sliding
-
-// Function to change the slide based on the index
-function goToSlide2(index) {
-  if (index < 0) index = images2.length - 1;
-  if (index >= images2.length) index = 0;
-
-  // Update the left slider's transform to shift to the correct image
-  slides2.style.transform = `translateX(-${index * 100}%)`;
-  currentIndex1 = index;
-}
-
-// Function to start the automatic sliding of images
-function startAutoPlay2() {
-  slideInterval2 = setInterval(() => {
-    currentIndex1 = (currentIndex1 + 1) % images2.length; // Move to the next slide
-    goToSlide2(currentIndex1);
-  }, 3000); // 3 seconds for each slide
-}
-
-// Function to stop auto play when hovering on the slider
-function stopAutoPlay2() {
-  clearInterval(slideInterval2); // Clears the auto sliding interval
-}
-
-// Start the slideshow automatically when page loads
-startAutoPlay2();
-
-// Stop autoplay on hover, and resume on mouseleave for the left slider
-document.querySelector('.glimpses-slider').addEventListener('mouseenter', stopAutoPlay2);
-document.querySelector('.glimpses-slider').addEventListener('mouseleave', startAutoPlay2);
-
-// Function to move to the specific image when thumbnail is clicked on the right side
-thumbnails2.forEach((thumbnail, index) => {
-  thumbnail.addEventListener('click', () => {
-    goToSlide2(index); // Move to the clicked thumbnail's corresponding slide
-    stopAutoPlay2(); // Stop auto sliding when a thumbnail is clicked
-    startAutoPlay2(); // Restart the auto sliding after a click
-  });
-});
-
-// Mouse wheel scrolling for thumbnails (right side)
-document.querySelector('.glimpses-slider .thumbnails').addEventListener('wheel', (e) => {
-  const scrollAmount = e.deltaY > 0 ? 1 : -1; // Check scroll direction
-  const thumbnailHeight = thumbnails2[0].offsetHeight;
-  document.querySelector('.glimpses-slider .thumbnails').scrollTop += scrollAmount * thumbnailHeight; // Scroll vertically
-});
-
-</script>
-
-<!--OUR PARTNERS slider-->
-<script>
-const partnerSlides = document.querySelector('.partner-slider .slides');
-const partnerBlocks = document.querySelectorAll('.partner-slider .block');
-const partnerPrev = document.querySelector('.partner-slider .prev');
-const partnerNext = document.querySelector('.partner-slider .next');
-
-let partnerIndex = 0;
-
-// Function to update the slider position
-function updatePartnerSlider() {
-  const blockWidth = partnerBlocks[0].offsetWidth;
-  partnerSlides.style.transform = `translateX(-${partnerIndex * blockWidth}px)`;
-}
-
-// Previous Button
-partnerPrev.addEventListener('click', () => {
-  partnerIndex = (partnerIndex - 1 + partnerBlocks.length) % partnerBlocks.length;
-  updatePartnerSlider();
-});
-
-// Next Button
-partnerNext.addEventListener('click', () => {
-  partnerIndex = (partnerIndex + 1) % partnerBlocks.length;
-  updatePartnerSlider();
-});
-
-// Auto Slide every 2.5 seconds
-setInterval(() => {
-  partnerIndex = (partnerIndex + 1) % partnerBlocks.length;
-  updatePartnerSlider();
-}, 2500);
-</script>
-
-<!-- DSEU in news section -->
-<script>
-  const viewAllBtn = document.getElementById('dseu-view-all-btn');
-  const newsContainer = document.querySelector('.dseu-news-container');
-
-  let expanded = false;
-
-  viewAllBtn.addEventListener('click', function () {
-    expanded = !expanded;
-    newsContainer.classList.toggle('limited-view');
-
-    if (expanded) {
-      viewAllBtn.textContent = 'SHOW LESS';
-    } else {
-      viewAllBtn.textContent = 'VIEW ALL';
+        messages.scrollTop = messages.scrollHeight;
+      }
     }
   });
+
+  // Append message with type (human or bot)
+  function appendMessage(message, type) {
+    const messages = document.getElementById("chat-messages");
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', type);
+    messageDiv.innerHTML = `<div class="message-text">${message}</div><div class="message-icon">${type === 'human' ? '👤' : '🤖'}</div>`;
+    messages.appendChild(messageDiv);
+  }
 </script>
 
-<!-- Last section -->
+<!-- Refreshed to the top -->
 <script>
-  fetch('https://api.countapi.xyz/hit/mainproject.com/visits')
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById('visitor-count').innerText = data.value;
-    });
+  // Scroll to the top of the page when it loads
+  window.onload = function() {
+    window.scrollTo(0, 0);
+  };
 </script>
-
 </body>
 </html>

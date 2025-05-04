@@ -120,19 +120,17 @@ body {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 0.01px;
   padding: 0;
   margin: 0;
 }
 .main-menu {
   display: flex;
-  gap: 0; /* Completely remove flex gap */
+  gap: 5px; /* Completely remove flex gap */
   padding: 0;
   margin: 0;
 }
 .menu-item {
   position: relative;
-  padding: 10px 12px;
   color: #004080;
   cursor: pointer;
   white-space: nowrap;
@@ -140,7 +138,6 @@ body {
 }
 .main-menu > .menu-item {
   margin: 0;
-  padding: 0 10px; /* Optional: adjust horizontal padding */
   list-style: none;
 }
 .main-menu > .menu-item > a {
@@ -149,6 +146,7 @@ body {
   text-decoration: none;
 }
 .menu-item > a, .menu-item > span {
+  display: block;
   color: #004080;
   text-decoration: none;
   cursor: pointer;
@@ -215,6 +213,7 @@ body {
   margin: 5px 0;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
+  border-radius: 6px;
 }
 .social-icons img:hover {
   transform: scale(1.2);
@@ -225,7 +224,7 @@ body {
   position: fixed;
   bottom: 10px;
   right: 10px;
-  font-size: 50px;
+  font-size: 30px;
   background: orange;
   border-radius: 50%;
   padding: 10px;
@@ -313,7 +312,7 @@ body {
   padding: 10px 0;
   color: rgb(71, 9, 203);
 }
-.popup-content li:hover{
+.popup-content a:hover{
   text-decoration: underline;
 }
 .close-btn {
@@ -324,37 +323,67 @@ body {
   cursor: pointer;
 }
 
+/* Chatbot */
+.message {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 20px;
+  max-width: 80%;
+  word-wrap: break-word;
+  position: relative;
+}
+.human {
+  background-color: #007bff;
+  color: white;
+  margin-left: auto;
+  border-radius: 20px 20px 0 20px;
+  flex-direction: row-reverse;
+}
+.bot {
+  background-color: #f1f1f1;
+  color: black;
+  border-radius: 20px 20px 20px 0;
+  flex-direction: row; /* Keep bot's message on the left */
+}
+.message-icon {
+  margin-left: 10px;
+  font-size: 20px;
+}
+.message-text {
+  max-width: 250px;
+}
+#chat-popup > div:first-child {
+  justify-content: center; /* Center the header content */
+}
+#chat-popup > div:first-child > div:last-child {
+  text-align: center; /* Center the bot name */
+  flex-grow: 1; /* Allow bot name to take available space */
+}
+
 /*top sliding bar*/
 .scrolling-bar {
+  width: 100%;
   overflow: hidden;
-  white-space: nowrap;
-  background: #e9e3e3;
-  color: rgb(87, 88, 196);
-  padding: 6px 20px;
+  background-color: #e9e3e3; /* Adjust the background if needed */
   position: relative;
-  font-size: 14px;
-  margin-right: 0;
 }
-.scrolling-bar p {
+a {
+  text-decoration: none;
+  color: #643fc2;
+  display: inline-block; /* Ensure proper inline block behavior */
+}
+span {
   display: inline-block;
-  min-width: 100%;
-  animation: scroll-left 60s linear infinite;
-  animation-play-state: running;
+  margin-right: 15px; /* Control the gap between the items */
 }
-.scrolling-bar:hover p {
-  animation-play-state: paused;
-}
-@keyframes scroll-left {
+@keyframes scrollLeft {
   0% {
     transform: translateX(100%);
   }
   100% {
     transform: translateX(-100%);
   }
-}
-.scrolling-bar a {
-  color: rgb(87, 88, 196);
-  text-decoration: underline;
 }
 
 /*Main image slider*/
@@ -413,20 +442,23 @@ body {
   display: flex;
   align-items: center;
 }
+.scrolling-wrapper {
+  display: flex;
+  white-space: nowrap; /* Prevent wrapping of the links */
+  animation: scrollLeft 60s linear infinite;
+}
 .scrolling-text {
-  white-space: nowrap;
-  margin-left: 10px;
-  padding-right: 100%;
-  animation: scrollLeftToRight 40s linear infinite;
-  font-size: 16px;
-  color: #004080;
+  padding-right: 15px; /* Add space between the text */
   text-decoration: none;
-  animation-play-state: running;
+  color: #4f1b9d; /* Adjust the color */
+  font-size: 16px;
 }
-.scrolling-text:hover{
+.scrolling-wrapper:hover{
   animation-play-state: paused;
+  color: rgb(0, 0, 0);
+  text-decoration: underline;
 }
-@keyframes scrollLeftToRight {
+@keyframes scrollLeft {
   0% {
     transform: translateX(100%);
   }
