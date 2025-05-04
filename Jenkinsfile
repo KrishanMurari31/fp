@@ -1,33 +1,38 @@
 pipeline {
     agent any
+
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                echo 'Cloning repository...'
+                git url: 'https://github.com/KrishanMurari31/fp.git', branch: 'master'
             }
         }
+
         stage('Verify Files') {
             steps {
+                echo 'Verifying files by opening the main webpage...'
                 script {
-                    if (!fileExists('main.html') || !fileExists('main.css')) {
-                        error("Required files 'main.html' or 'main.css' are missing!")
+                    def htmlFile = 'main.html'
+                    if (fileExists(htmlFile)) {
+                        echo "Opening ${htmlFile}..."
+                        if (isUnix()) {
+                            sh "xdg-open ${htmlFile} || echo 'xdg-open not available'"
+                        } else {
+                            bat "start ${htmlFile}"
+                        }
                     } else {
-                        echo "Files 'main.html' and 'main.css' found in the repository."
+                        error "Main web page (${htmlFile}) not found!"
                     }
                 }
             }
         }
+
         stage('Deploy') {
             steps {
-                bat '''
-                echo Deploying files...
-                if not exist "C:\\deploy" mkdir C:\\deploy
-                copy index.html C:\\deploy\\
-                copy style.css C:\\deploy\\
-                echo Deployment complete.
-                '''
+                echo 'Deploying application...'
+                // Add your deployment logic here
             }
         }
     }
-}
 }
