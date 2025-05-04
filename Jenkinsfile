@@ -9,7 +9,7 @@ pipeline {
         stage('Verify Files') {
             steps {
                 script {
-                    if (!fileExists('index.html') || !fileExists('style.css')) {
+                    if (!fileExists('main.html') || !fileExists('main.css')) {
                         error("Required files 'main.html' or 'main.css' are missing!")
                     } else {
                         echo "Files 'main.html' and 'main.css' found in the repository."
