@@ -1,29 +1,33 @@
 pipeline {
     agent any
-
     stages {
-        stage('Clone Repo') {
+        stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/KrishanMurari31/fp.git'
+                checkout scm
             }
         }
-
-        stage('Build') {
+        stage('Verify Files') {
             steps {
-                echo 'Building...'
+                script {
+                    if (!fileExists('index.html') || !fileExists('style.css')) {
+                        error("Required files 'main.html' or 'main.css' are missing!")
+                    } else {
+                        echo "Files 'main.html' and 'main.css' found in the repository."
+                    }
+                }
             }
         }
-
-        stage('Test') {
-            steps {
-                echo 'Testing...'
-            }
-        }
-
         stage('Deploy') {
             steps {
-                echo 'Deploying...'
+                bat '''
+                echo Deploying files...
+                if not exist "C:\\deploy" mkdir C:\\deploy
+                copy index.html C:\\deploy\\
+                copy style.css C:\\deploy\\
+                echo Deployment complete.
+                '''
             }
         }
     }
+}
 }
